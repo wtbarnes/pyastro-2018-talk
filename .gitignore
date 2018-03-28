@@ -1,3 +1,6 @@
+# Ignore temporary files from backslide
+.tmp/
+
 # Byte-compiled / optimized / DLL files
 __pycache__/
 *.py[cod]

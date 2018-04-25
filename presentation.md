@@ -88,6 +88,42 @@ Mention URL at bottom of the page to find slides at
   * Some documentation, but out of date
   * IDL!
   * A collection of useful scripts rather than a library for interacting with the data
+* Lead into fiasco package
+
+---
+
+# *fiasco*
+* Basic info about the package
+
+---
+class: middle
+
+# Parsing the Data
+
+---
+class: middle
+
+# Building an HDF5 Database
+* How the HDF5 files are built
+* How they are structured
+* Datalayer as a separation between the API and the data itself
+
+---
+class: middle
+
+# An API for Atomic Physics
+* Use of `__add__`, `__getitem__`
+* Show features of the package, particularly for exploring data
+* Highlight `Ion`, `Element`, `IonCollection`
+* Show ionization equilibrium, spectra, radiative losses
+
+---
+class: middle
+
+# Infrastructure Challenges
+* Distibuting and versioning data
+* Interaction with other databases
+* Serving data remotely with h5serv
 
 ---
 class: middle

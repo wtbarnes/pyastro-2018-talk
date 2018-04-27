@@ -1,0 +1,17 @@
+axes.titlesize : 14
+axes.labelsize : 14
+#Lines
+lines.linewidth : 2
+#Ticks
+xtick.labelsize : 10
+ytick.labelsize : 10
+xtick.major.pad : 8
+xtick.minor.pad : 8
+ytick.major.pad : 8
+ytick.minor.pad : 8
+#Legend
+legend.fontsize : 10
+#Save
+savefig.dpi : 500
+savefig.format : png
+#savefig.bbox : tight

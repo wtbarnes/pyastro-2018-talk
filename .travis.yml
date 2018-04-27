@@ -8,6 +8,7 @@ env:
       - PIP_DEPENDENCIES='doctr'
       - CONDA_DEPENDENCIES='nodejs'
       - EVENT_TYPE='pull_request push'
+      - secure: "HpRnMP5Ng7kgiPf/z4inqhZ5OUk890hDKO4OadU3QooDuLYkElINIZoeU2m7SAv3/SE2jgf717RCnbEbIpdXOV92JyfoUPxfHCO8bn+6svvdlqIoY1w9bStI/uECpom9eiNFXoU7FBBDQhJXSTvnYY2rohvSUeXO3ET1o7CO2H5YYWtqPSGh9bdk55z0OojAPSfH+P9aOWB/E0Xa8Nw5CjbHVNHCl7wGv0qI6gLqCudiHE7uNZmjIErvswm7u0wQ1AfL42MFRzBSjzGiL8sO2dhFdm580yLPDYIHjQJhkJMlxpbHsiHE/WSYBkdqa9rnMEgAL7QPsU5cZ9Ghgd1U3ABtjbAbkJ7kfLz0EQNGc7olSPKf8yJi5Z05qM4b4XjM1sKYTIEuhQBo2FbptIjhEbIdcbDj11lpELhQSdEnWdJ5ny8Ia6RIv1mOlPEQWuSB8qT6jZHfq9DYGaEYLbvbPJGAmNiZfuIwxRiO2t0OKEodHfmxU/H0vxd5Dr1ecWkoCRnM2JHnUf5oICOWjYyKy28qtntqF0g5jge/76ZDHq9oBBxxpqS0nWSw8El1mFZBphxWkcpVDHKH28sgLzAgPp/GnhTTV6tm/ceiNGC8TUGjj37aGlTkH955yXUkJxP842u69p60QPn4oImHlysVouTM8eKJ1MWcAjELp2aWqkk="
 install:
   - git clone --depth 1 git://github.com/astropy/ci-helpers.git
   - source ci-helpers/travis/setup_conda.sh

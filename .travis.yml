@@ -1,0 +1,21 @@
+language: c
+os:
+  - linux
+sudo: false
+env:
+    global:
+      - PYTHON_VERSION=3.6
+      - PIP_DEPENDENCIES='doctr'
+      - CONDA_DEPENDENCIES='nodejs'
+      - EVENT_TYPE='pull_request push'
+install:
+  - git clone --depth 1 git://github.com/astropy/ci-helpers.git
+  - source ci-helpers/travis/setup_conda.sh
+  - npm install -g backslide
+  - npm install --prefix html_output mathjax
+script:
+  - bs export -l -r -o html_output && mv html_output/presentation.html html_output/index.html
+  - cp template/remark.min.js html_output/
+  - cp -r template/img html_output/ 
+after_success:
+  - doctr deploy . --built-docs html_output/

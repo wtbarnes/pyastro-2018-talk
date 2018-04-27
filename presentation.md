@@ -1,4 +1,4 @@
-title:
+title: A Complete Fiasco
 class: animation-fade
 layout: true
 
@@ -6,7 +6,7 @@ layout: true
 .colorstrip[
 ]
 .bottom-bar[
-    <a href="https://wtbarnes.github.io/#">
+    <a href="https://wtbarnes.github.io/pyastro-2018-talk">
     wtbarnes.github.io/pyastro-2018-talk
     </a>
     <img src="img/fiasco-logo.png" class="school-logo">

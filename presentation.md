@@ -156,6 +156,11 @@ Mention origin of name
 * Type of bottle for serving CHIANTI wine
 * "Serves up" the CHIANTI database
 * Software development as a scientist is always a fiasco...
+Should only be 3 minutes in at the end of this slide
+Now talk about package
+* How we parse the data
+* How we reorganize the data
+* How we use the data
 
 ---
 class: middle,center
@@ -234,6 +239,7 @@ Sometimes no space between columns
   * Common parser for all files
   * Metadata
   * Dataframe or Astropy Table
+  * Maximize code reuse!
 ]
 .col-6[
 ```
@@ -253,31 +259,148 @@ chianti/dbase/fe/fe_16/
 ]
 
 ---
-class: middle
-
-# Parsing the Data: A Solution!
-
-* Examples of parsing code
-* Talk about basics of factory pattern
-* Use of metaclasses
+```python
+>>> from fiasco.io import Parser
+>>> p = Parser('fe_16.elvlc')
+>>> p.parse()
+level  config  label multiplicity L_label  J   E_obs       E_th   
+                                               1 / cm     1 / cm  
+----- -------- ----- ------------ ------- --- -------- -----------
+    1   3s2.3p                  2       P 0.5      0.0         0.0
+    2   3s2.3p                  2       P 1.5  18852.0     18332.0
+...
+>>> Parser('al_6.psplups').parse()
+lower_level upper_level bt_type  gf delta_energy  bt_c    bt_rate [9]   
+                                         Ry                             
+----------- ----------- ------- --- ------------ ----- -----------------
+          1           2       2 0.0       0.0249  61.0        0.0 .. nan
+          1           3       2 0.0      0.03489  32.5        0.0 .. nan
+          2           3       2 0.0     0.009997 186.0 -1e-12 .. 1.7e-10
+```
 
 ---
-class: middle
+
+.col-7[
+```python
+>>> type(Parser('fe_16.elvlc'))
+fiasco.io.sources.ion_sources.ElvlcParser
+>>> type(Parser('al_6.psplups'))
+fiasco.io.sources.ion_sources.PsplupsParser
+```
+
+* `ParserFactory` *metaclass* creates parser classes "on the fly"
+* *Factory pattern* &ndash; common software design pattern
+* Filetype determines parser class
+* In most simple case, a parser class just provides
+  * headings
+  * units
+  * types
+  * descriptions
+]
+.col-5[
+  <img src="img/parser_inheritance_diagram.svg" width=425px>
+]
+
+???
+Give good example of factory pattern
+Common software engineering design pattern
+This is how SunPy handles map creation for different instruments
+Mention benefit to user
+Valuable if all you want to do is read a CHIANTI data file
+Should be 7 minutes in here (~halfway)
+
+---
+class: center, middle
 
 # Building an HDF5 Database
+
+???
+* Two slides
+  * How the data are built into the HDF5 file 
+  * How the data are accessed from the file
+* Try for only 2,3 minutes here
 * How the HDF5 files are built
 * How they are structured
 * Datalayer as a separation between the API and the data itself
 
 ---
-class: middle
+class: middle,center
 
-# An API for Atomic Physics
+# The fiasco API: Using the Data
+
+???
 * Use of `__add__`, `__getitem__`
 * Show features of the package, particularly for exploring data
 * Highlight `Ion`, `Element`, `IonCollection`
 * Show ionization equilibrium, spectra, radiative losses
 
+---
+class: middle
+## Three (really two) Primary Objects
+* `Ion`
+* `Element`
+* `IonCollection`
+
+---
+## The `Ion` Object
+```python
+>>> import fiasco
+>>> import numpy as np; import astropy.units as u
+>>> t = np.logspace(4,8,100)*u.K
+>>> ion = fiasco.Ion('Fe 16', temperature=t)
+# Equivalently
+>>> fiasco.Ion('Fe +15', t), fiasco.Ion('iron 16', t);
+# Basic metadata
+>>> ion.element_name, ion.atomic_symbol, ion.atomic_number
+('iron', 'Fe', 26) 
+>>> ion.ion_name, ion.ionization_stage, ion.charge_state
+('Fe 16', 16, 15)
+```
+
+???
+Main object in fiasco is `Ion`
+Inspiration from ChiantiPy package
+Units everywhere
+Instantiate ions in multiple ways
+
+---
+.col-7[
+```python
+>>> ion
+CHIANTI Database Ion
+---------------------
+Name: Fe 16
+Element: iron (26)
+Charge: +15
+Number of Levels: 161
+Number of Transitions: 2815
+
+Temperature range: [0.01 MK, 100.0 MK]
+
+HDF5 Database: .fiasco/chianti_dbase.h5
+Using Datasets:
+  ioneq: chianti
+  abundance: sun_photospheric_1998_grevesse
+  ip: chianti
+```
+]
+.col-5[
+* String representation of an object set by `__repr__` method 
+* Give meaningful information about your object!
+```python
+>>> class Foo():
+            pass
+>>> Foo()
+<__main__.Foo at 0x11a30b7f0>
+>>> class Foo():
+            def __repr__(self):
+                return 'foo!'
+>>> Foo()
+'foo!'
+```
+]
+---
+## Accessing Atomic Data
 ---
 class: middle
 

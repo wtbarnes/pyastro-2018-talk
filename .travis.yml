@@ -17,5 +17,5 @@ script:
   - bs export -l -r -o html_output && mv html_output/presentation.html html_output/index.html
   - cp template/remark.min.js html_output/
   - cp -r template/img html_output/ 
-after_success:
-  - doctr deploy . --built-docs html_output/
+#after_success:
+#  - doctr deploy . --built-docs html_output/

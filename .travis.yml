@@ -12,7 +12,7 @@ env:
 install:
   - git clone --depth 1 git://github.com/astropy/ci-helpers.git
   - source ci-helpers/travis/setup_conda.sh
-  - npm install -g backslide
+  - npm install -g backslide@1.2.1
   - npm install --prefix html_output mathjax
 script:
   - bs export -l -r -o html_output && mv html_output/presentation.html html_output/index.html

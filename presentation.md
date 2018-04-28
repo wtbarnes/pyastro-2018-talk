@@ -131,7 +131,8 @@ Many, many transitions per ion
 [![Build Status](https://travis-ci.org/wtbarnes/fiasco.svg?branch=master)](https://travis-ci.org/wtbarnes/fiasco)
 [![Documentation Status](https://readthedocs.org/projects/fiasco/badge/?version=latest)](http://fiasco.readthedocs.io/en/latest/?badge=latest)
 [![Coverage Status](https://coveralls.io/repos/github/wtbarnes/fiasco/badge.svg?branch=master&service=github)](https://coveralls.io/github/wtbarnes/fiasco?branch=master&service=github)
-* First commit 9 August 2017, 196 commits as of 26 April 
+* First commit 9 August 2017, 196 commits as of 26 April
+* Licensed under BSD 3-Clause License
 * **Python 3 only** (3.6 or later)
 * Documentation builds on Read the Docs
 * Automated test suite run on Travis CI
@@ -149,6 +150,7 @@ $ cd fiasco && python setup.py install
   <img src="https://upload.wikimedia.org/wikipedia/commons/d/d4/HD.5A.036_%2810555475386%29.jpg" width=350px;>
   <figcaption><small>Image Credit: <a href="https://commons.wikimedia.org/wiki/File:HD.5A.036_(10555475386).jpg">Wikipedia</a></small></figcaption>
   </figure>
+  </div>
 ]
 
 ???
@@ -156,6 +158,7 @@ Mention origin of name
 * Type of bottle for serving CHIANTI wine
 * "Serves up" the CHIANTI database
 * Software development as a scientist is always a fiasco...
+Not just 
 Should only be 3 minutes in at the end of this slide
 Now talk about package
 * How we parse the data
@@ -386,7 +389,7 @@ Using Datasets:
 ]
 .col-5[
 * String representation of an object set by `__repr__` method 
-* Give meaningful information about your object!
+* Gives meaningful information about your object!
 ```python
 >>> class Foo():
             pass
@@ -400,11 +403,86 @@ Using Datasets:
 ```
 ]
 ---
-## Accessing Atomic Data
----
 class: middle
 
+* Access to basic CHIANTI quantities
+```python
+>>> ion.abundance
+<Quantity 3.1622776601683795e-05>
+>>> ion.ip.to(u.eV)
+<Quantity 489.2763585014938 eV>
+```
+* As well as the more complicated "raw" CHIANTI data
+```python
+>>> ion._elvlc['E_obs']
+<Quantity [  0.00000000e+00,  2.77194188e+05, ... ] 1 / cm>
+>>> ion._wgfa['wavelength']
+<Quantity [ 360.758, 335.409, ... ] Angstrom>
+```
+
+???
+Access abundance, ionization potential 
+Note the use of `_` with raw data
+Not meant to be user facing
+Data used to calculate more useful quantities
+Abstract away the CHIANTI filetypes -- they are not user friendly
+---
+
+### Derived Quantities
+```python
+>>> ion.ionization_rate()
+<Quantity [  2.18538687e-258,  1.84291825e-236, ...] cm3 / s>
+>>> ion.recombination_rate()
+<Quantity [  2.11925041e-10,  2.08729127e-10, ...] cm3 / s>
+```
+
+<div style="text-align:center;">
+<img src="img/rates.png" width=65%>
+</div>
+
+---
+
+.col-6[
+### Energy Levels
+```python
+>>> ion[0]
+Level: 1
+Configuration: 3s
+Orbital Angular Momentum: S
+Energy: 0.0 erg
+>>> ion[1].level
+2
+>>> ion[1].configuration
+'3p'
+>>> for level in ion:
+        print(level.energy.to(u.eV))
+0.0 eV
+34.36769892212881 eV
+36.96503221887158 eV
+...
+```
+]
+.col-6[
+* Index to access energy levels of an ion, returns a `Level` object 
+* Intuitive interface to energy levels
+* The levels "belong" to the ion
+* Use the `__getitem__` method to index, iterate class
+```python
+>>> class Foo():
+            _list = [1,2,3]
+            def __getitem__(self,key):
+                return self._list[key]
+>>> Foo()[0]
+1
+```
+]
+
+---
+class: center,middle
+
 # Infrastructure Challenges
+
+???
 * Distibuting and versioning data
 * Interaction with other databases
 * Serving data remotely with h5serv

@@ -1,3 +1,5 @@
+# Ignore any keynote files
+*.key
 # Ignore data folder
 notebooks/data/
 # Ignore temporary files from backslide

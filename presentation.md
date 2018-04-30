@@ -552,6 +552,87 @@ background-size: contain
 ---
 
 ## `IonCollection` Object
+.col-6[
+* General grouping of ions
+* Useful for spectra and radiative losses
+
+```python
+>>> from fiasco import IonCollection
+>>> ion1 = Ion('H 1',t)
+>>> ion2 = Ion('He 1',t)
+>>> c = IonCollection(ion1,ion2)
+# Or
+>>> c = ion1 + ion2
+# and with elements!
+>>> c = ion1 + ion2 + el
+```
+]
+.col-6[
+* Use the `__add__` method for using the `+` operator  
+* Combine things *intuitively*
+
+```python
+>>> class Foo():
+      def __init__(self, i):
+          self.i = i
+      def __add__(self, key):
+          return Foo(self.i + key.i)
+>>> foo = Foo(1); bar = Foo(2)
+>>> foobar = foo + bar
+>>> foobar.i
+3
+  ```
+]
+
+---
+### Computing Spectra
+
+* A few parameters
+```python
+>>> temperature = 10.**np.array([6.1,6.75,7.25])*u.K
+>>> density = [1e10]/(u.cm**3)
+>>> em = [1e27]/(u.cm**5)
+>>> wvl_range = [186,197]*u.angstrom
+>>> bin_width = 0.01*u.angstrom
+```
+* Create the ions
+```python
+>>> fe12 = fiasco.Ion('Fe 12', temperature)
+>>> fe24 = fiasco.Ion('Fe 24', temperature)
+>>> ca17 = fiasco.Ion('Ca 17', temperature)
+```
+---
+class:middle
+
+```python
+>>> c = IonCollection(fe24)
+```
+
+<div style="text-align:center;">
+<img src="img/spec_fe24.png" width=90%>
+</div>
+
+---
+class:middle
+
+```python
+>>> c = fe24 + ca17
+```
+
+<div style="text-align:center;">
+<img src="img/spec_fe24_ca17.png" width=90%>
+</div>
+
+---
+class:middle
+
+```python
+>>> c = fe24 + ca17 + fe12
+```
+
+<div style="text-align:center;">
+<img src="img/spec_fe24_ca17_fe12.png" width=90%>
+</div>
 
 ---
 class: center,middle

@@ -339,6 +339,11 @@ class: center, middle
       E_obs = np.array(hf['fe/fe_16/elvlc/E_obs'])
   ```
 
+???
+Directory structure maps well to HDF5 file
+We use h5py package
+Can select specific columens without reading the whole file
+
 ---
 class: middle
 
@@ -362,13 +367,8 @@ Quantity< [     0.     82258.956  ... ] 1 / cm>
 ```
 
 ???
-* Two slides
-  * How the data are built into the HDF5 file 
-  * How the data are accessed from the file
-* Try for only 2,3 minutes here
-* How the HDF5 files are built
-* How they are structured
-* Datalayer as a separation between the API and the data itself
+* Interface provides separation between code and data source
+* Everything returns another interface until you get down to dataset level
 
 ---
 class: middle,center
@@ -524,6 +524,30 @@ Energy: 0.0 erg
 ---
 
 ## `Element` Object
+
+```python
+>>> from fiasco import Element
+>>> el = Element('iron', temperature=t)
+>>> type(el[10])
+fiasco.ion.Ion
+>>> for ion in el:
+        print(ion.ion_name)
+Fe 1
+Fe 2
+Fe 3
+...
+>>> ioneq = el.equilibrium_ionization()
+```
+
+???
+Access ions through indices corresponding to their charge state
+Iterate through all ions in element
+Compute ion population fractions in equilibrium
+
+---
+class: full,middle,center
+background-image: url("img/ioneq.png")
+background-size: contain
 
 ---
 

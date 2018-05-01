@@ -54,75 +54,69 @@ wtbarnes_</a>
 Mention URL at bottom of the page to find slides at
 
 ---
-class: middle,center
-
-# Atomic Physics? Who Cares?
-
-???
-Atomic data often a secondary concern in astronomy/astrophysics
-Get pretty picture
-Interpret pretty picture
-But how?
-
----
 class: full,middle,center
 background-image: url("img/aia_ar.png")
 background-size: contain
 
 ???
-Need atomic data for interpretation of astronomical data
-Need atomic data for simulations
-* Simulating physical processes
-* Simulating observations
-Often forget about what the sources of atomic data are, where do the data come from, how do we make it easily available, etc.,...
-In solar physics, default option for atomic data is...
+* Atomic data often a secondary concern in astronomy/astrophysics
+* Get pretty picture, Interpret pretty picture
+* Need atomic data for interpretation of astronomical data
+* Need atomic data for simulations
+  * Simulating physical processes
+  * Simulating observations
+* In solar physics, default option for atomic data is...
 
 ---
-class: middle
+class: center
 
 # The CHIANTI Atomic Database
-* Look back at slides from SciPy
-* [Give some background on CHIANTI here]
-* [Some explanation of what CHIANTI is, what it is used for]
-* [no more than two slides]
-* [Number of citations, popularity]
 
----
-class: full,middle,center
-background-image: url("img/chianti_periodictable.png")
-background-size: contain
+<img src="img/chianti_periodictable.png" width=75%>
+
 
 ???
-30 elements
-495 ions
-Many levels per ion
-Many, many transitions per ion
+* "An Atomic Database for Diagnostics of Astrophysical Plasmas"
+  * High temperature
+  * Low density
+  * Optically thin 
+* v1.0 released in 1995 and still actively maintained!
+* University of Cambridge, University of Michigan, George Mason University
+* Consolidated many datasets from the literature: lab + simulation
+* 15 papers with over 3000 combined citations
+* **Primary source of atomic data in solar physics**
+
+* 30 elements
+* 495 ions
+* Many levels per ion; many, many transitions per ion
 
 ---
 # The CHIANTI Atomic Database
 
-* [all tools in IDL]
-* Data + Software
-* [Important to have python alternative]
-* [Mention ChiantiPy briefly]
-* [Start with many good things about CHIANTI, how it is useful, powerful tool]
-* [Then some downsides]
-  * ASCII data files
-  * Software is freely available, but no clear way to contribute or report bugs
-  * No tests
+* Data + code freely distributed as tarball or via SSW
+* Database:
+  * ~1.7 GB in size &ndash; "medium" data
+  * Thousands of files in plaintext format
+* Software:
+  * Parses the data, computes common quantities (rates, populations, spectra, etc.)
+  * Collection of useful IDL scripts, not modular
+  * Versioned, but no backwards compatibility
   * Some documentation, but out of date
-  * IDL!
-  * A collection of useful scripts rather than a library for interacting with the data
-* Need a Python equivalent
-* e.g. AIA response functions
-* Lead into fiasco package
+  * Tested thoroughly by CHIANTI team, but no automatic tests 
+  * No clear way to contribute code, report bugs
+* The ChiantiPy package provides a Python alternative
+* ... but is a bit "brittle", i.e. I broke it a lot
 
 ???
-(State of software in solar will likely be covered in Dan's talk)
-* IDL still overwhelmingly the standard
-* SolarSoftware (SSW) is the dominant software ecosystem
-* Very slow Python adoption
-* "I like Python, but it doesn't have *everything* I need!"
+* *Gently* discuss painpoints of the current tooling
+* Data + code publicly released from beginning
+* IDL code is fairly well structured, readable but not especially good for "exploring" the 
+* data or building code on top of
+* ChiantiPy started in 2003 (before NumPy + many of the tools we take for granted today)
+* Introduced an object orient interface
+* I contributed to it for ~1 year, wanted to modernize (a lot) and broke master a lot
+* A new package would be better suited for these improvements
+
 
 ---
 
@@ -132,7 +126,7 @@ Many, many transitions per ion
 [![Build Status](https://travis-ci.org/wtbarnes/fiasco.svg?branch=master)](https://travis-ci.org/wtbarnes/fiasco)
 [![Documentation Status](https://readthedocs.org/projects/fiasco/badge/?version=latest)](http://fiasco.readthedocs.io/en/latest/?badge=latest)
 [![Coverage Status](https://coveralls.io/repos/github/wtbarnes/fiasco/badge.svg?branch=master&service=github)](https://coveralls.io/github/wtbarnes/fiasco?branch=master&service=github)
-* First commit 9 August 2017, 196 commits as of 26 April
+* First commit 9 August 2017, 198 commits as of 30 April
 * Licensed under BSD 3-Clause License
 * **Python 3 only** (3.6 or later)
 * Documentation builds on Read the Docs
@@ -159,13 +153,13 @@ Mention origin of name
 * Type of bottle for serving CHIANTI wine
 * "Serves up" the CHIANTI database
 * Software development as a scientist is always a fiasco...
-Not just computing quantities, but provide an intuitive interface for exploring the data
-Extensible, easily used in other applications, other libraries
-Should only be 3 minutes in at the end of this slide
-Now talk about package
-* How we parse the data
-* How we reorganize the data
-* How we use the data
+* Not just computing quantities, but provide an intuitive interface for exploring the data
+* Extensible, easily used in other applications, other libraries
+* Should only be 3 minutes in at the end of this slide
+* Now talk about package
+  * How we parse the data
+  * How we reorganize the data
+  * How we use the data
 
 ---
 class: middle,center
@@ -225,11 +219,16 @@ $ head -n 3 chianti/dbase/al/al_6/al_6.psplups
 ```
 
 ???
-Sometimes one logical grouping split across multiple lines
-Sometimes no space between columns
-
+* Sometimes one logical grouping split across multiple lines
+* Sometimes no space between columns
+* Up to 13 different possible filetypes for each ion
+* **Fixed-width FORTRAN format**
+* Only metadata is original data source
+  * No units
+  * No column labels
 
 ---
+exclude: true
 
 # Parsing the Data
 
@@ -325,7 +324,7 @@ class: center, middle
 * Solution: HDF5!
   * **H**ierarchical **D**ata **F**ormat...5
   * Filetree in a single blob
-  * Good Python support: [h5py](http://docs.h5py.org/en/latest/) and [PyTables](https://www.pytables.org/)
+  * ~~Good~~ Great Python support: [h5py](http://docs.h5py.org/en/latest/) and [PyTables](https://www.pytables.org/)
 * Read parts of file without unnecessary memory overhead
 * `GenericIonParser` has a `to_hdf5()` method,
   ```python
@@ -340,12 +339,14 @@ class: center, middle
   ```
 
 ???
-Directory structure maps well to HDF5 file
-We use h5py package
-Can select specific columens without reading the whole file
+* Directory structure maps well to HDF5 file
+* fiasco uses h5py package
+* Can select specific columns without reading the whole file
+* Provide some extra "sugar" to cut down on no. of lines, return units, etc.
 
 ---
 class: middle
+exclude: true
 
 * Interface between HDF5 file and the code:
   1. Provides separation between the computation and the data I/O
@@ -375,19 +376,6 @@ class: middle,center
 
 # The fiasco API: Using the Data
 
-???
-* Use of `__add__`, `__getitem__`
-* Show features of the package, particularly for exploring data
-* Highlight `Ion`, `Element`, `IonCollection`
-* Show ionization equilibrium, spectra, radiative losses
-
----
-class: middle
-## Three (really two) Primary Objects
-* `Ion`
-* `Element`
-* `IonCollection`
-
 ---
 ## `Ion` Object
 ```python
@@ -405,10 +393,10 @@ class: middle
 ```
 
 ???
-Main object in fiasco is `Ion`, the "building block"
-Inspiration from ChiantiPy package
-Units everywhere
-Instantiate ions in multiple ways
+* Main object in fiasco is `Ion`, the "building block"
+* Inspiration from ChiantiPy package
+* Astropy units everywhere!
+* Instantiate ions in multiple ways
 
 ---
 .col-7[
@@ -448,6 +436,7 @@ Using Datasets:
 ]
 ---
 class: middle
+exclude: True
 
 * Access to basic CHIANTI quantities
 ```python
@@ -706,6 +695,6 @@ class: middle
   * David Pérez-Suárez (UCL)
 * <img src="https://github.com/PlasmaPy/PlasmaPy-logo/blob/master/exports/graphic.png?raw=true" width="40px"> PlasmaPy project
   * Nick Murphy (CfA)
-  * Drew Leonard (Sheffield)
+  * Drew Leonard (Aperio)
 * Stephen Bradshaw (Rice)
 * Slides built with [**backslide**](https://github.com/sinedied/backslide) and [**Remark.js**](https://github.com/gnab/remark)

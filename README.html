@@ -12,14 +12,14 @@
   <!-- MathJax Local install -->
   <!--<script type="text/javascript" src="node_modules/mathjax/MathJax.js?config=TeX-AMS_HTML&delayStartupUntil=configured"></script>-->
   <!-- Mathjax CDN -->
-  <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_HTML&delayStartupUntil=configured" type="text/javascript"></script>
+  <!-- <script src="https://cdnjs.cloudflare.com/ajax/libs/mathjax/2.7.1/MathJax.js?config=TeX-AMS_HTML&delayStartupUntil=configured" type="text/javascript"></script> -->
   <!-- Font Awesome CDN -->
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.7.0/css/font-awesome.min.css">
   <script>
     // Backslide setup
     function create() {
       return remark.create({
-        source: "# pyastro-2018-talk\nSlides for my talk at the PyAstro 2018 meeting in New York City, NY\n\n## Outline\n* Introduction/Motivation\n  * Two takeaways:\n    * How to parse and wrangle (biggish) data in difficult formats, particularly static data, e.g. atomic data, maybe old observational data\n    * Common interface for atomic data for astronomers\n  * CHIANTI database\n  * Explanation of name\n  * Challenges of using IDL\n* Parsing the Data\n  * CHIANTI formats\n  * Show some `head`, `tail` examples of the files, why they are difficult to parse\n  * Talk about use of factory pattern\n* Accessing the data\n  * From ASCII to HDF5\n  * Faster more organized storage\n  * HDF5 like a filesystem so lends itself well to structure\n* High Level API\n  * Provide separation between the details of CHIANTI and the data itself\n  * The user should not have to worry about how the data is stored, filetypes etc.\n  * Maybe even able to write higher level functions without knowledge of underlying data storage model?\n* Infrastructure challenges\n  * Large data\n  * Keeping data up to date\n  * Remote data (h5serv, h5pyd, etc.)\n  * This section will summarize much future work as well\n  * A common interface to many atomic databases (see point above regarding abstracting away details of data storage)\n  * Other databases: Cloudy, ADS, ...\n* Conclusion\n\n## Overall Notes\n* Provide examples of Python throughout\n* Show code snippets that show the API\n* Discuss *some* implementation details that may be useful to others, e.g.\n  * Factory patterns and use of metaclasses\n  * `__add__`\n  * `__repr__`\n  * `__getitem__`",
+        source: "# pyastro-2018-talk\n[![Build Status](https://travis-ci.org/wtbarnes/pyastro-2018-talk.svg?branch=master)](https://travis-ci.org/wtbarnes/pyastro-2018-talk)\n[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1249002.svg)](https://doi.org/10.5281/zenodo.1249002)\nSlides for my talk at the PyAstro 2018 meeting in New York City, NY\n\n## Outline\n* Introduction/Motivation\n  * Two takeaways:\n    * How to parse and wrangle (biggish) data in difficult formats, particularly static data, e.g. atomic data, maybe old observational data\n    * Common interface for atomic data for astronomers\n  * CHIANTI database\n  * Explanation of name\n  * Challenges of using IDL\n* Parsing the Data\n  * CHIANTI formats\n  * Show some `head`, `tail` examples of the files, why they are difficult to parse\n  * Talk about use of factory pattern\n* Accessing the data\n  * From ASCII to HDF5\n  * Faster more organized storage\n  * HDF5 like a filesystem so lends itself well to structure\n* High Level API\n  * Provide separation between the details of CHIANTI and the data itself\n  * The user should not have to worry about how the data is stored, filetypes etc.\n  * Maybe even able to write higher level functions without knowledge of underlying data storage model?\n* Infrastructure challenges\n  * Large data\n  * Keeping data up to date\n  * Remote data (h5serv, h5pyd, etc.)\n  * This section will summarize much future work as well\n  * A common interface to many atomic databases (see point above regarding abstracting away details of data storage)\n  * Other databases: Cloudy, ADS, ...\n* Conclusion\n\n## Overall Notes\n* Provide examples of Python throughout\n* Show code snippets that show the API\n* Discuss *some* implementation details that may be useful to others, e.g.\n  * Factory patterns and use of metaclasses\n  * `__add__`\n  * `__repr__`\n  * `__getitem__`",
         ratio: '16:9',
         highlightLines: true,
         countIncrementalSlides: false,
@@ -28,12 +28,12 @@
       });
     }
     // Mathjax setup
-    MathJax.Hub.Config({
-          tex2jax: {
-          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre']
-          }
-      });
-      MathJax.Hub.Configured();
+//    MathJax.Hub.Config({
+//          tex2jax: {
+//          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre']
+//          }
+//     });
+//      MathJax.Hub.Configured();
   </script>
 </head>
 <body onload="slideshow = create()">

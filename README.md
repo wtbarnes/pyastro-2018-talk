@@ -1,4 +1,6 @@
 # pyastro-2018-talk
+[![Build Status](https://travis-ci.org/wtbarnes/pyastro-2018-talk.svg?branch=master)](https://travis-ci.org/wtbarnes/pyastro-2018-talk)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.1249002.svg)](https://doi.org/10.5281/zenodo.1249002)
 Slides for my talk at the PyAstro 2018 meeting in New York City, NY
 
 ## Outline

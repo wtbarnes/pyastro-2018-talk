@@ -55,7 +55,7 @@ Mention URL at bottom of the page to find slides at
 
 ---
 class: full,middle,center
-background-image: url("img/aia_ar.png")
+background-image: url(img/aia_ar.png)
 background-size: contain
 
 ???
@@ -535,7 +535,7 @@ Compute ion population fractions in equilibrium
 
 ---
 class: full,middle,center
-background-image: url("img/ioneq.png")
+background-image: url(img/ioneq.png)
 background-size: contain
 
 ---
@@ -645,7 +645,7 @@ exclude: true
 
 ---
 class: middle,center,full
-background-image: url("img/cloud_diagram.png")
+background-image: url(img/cloud_diagram.png)
 background-size: contain
 
 ???
